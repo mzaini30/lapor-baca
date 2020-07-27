@@ -1,6 +1,6 @@
 <template id="beranda_rekap">
 	<div>
-		<div class="list-group">
+		<div class="list-group" v-if="tertinggi.halaman >= halaman">
 			<div class="list-group-item">
 				<div class="media">
 				  <img class="mr-3" :src="'https://www.gravatar.com/avatar/' + tertinggi.gravatar">
