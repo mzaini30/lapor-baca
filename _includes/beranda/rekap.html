@@ -6,7 +6,7 @@
 				  <img class="mr-3" :src="'https://www.gravatar.com/avatar/' + tertinggi.gravatar">
 				  <div class="media-body">
 				    <strong v-text='tertinggi.nama + " - " + tertinggi.domisili'></strong> <span class="badge badge-success">Tertinggi</span><br>
-				    <span v-text='tertinggi.halaman'></span> halaman <span class="badge badge-info" v-text='"+" + lebih(tertinggi.halaman)'></span>
+				    <span v-text='titik(tertinggi.halaman)'></span> halaman <span class="badge badge-info" v-text='"+" + titik(lebih(tertinggi.halaman))'></span>
 				  </div>
 				</div>
 			</div>
@@ -36,7 +36,7 @@
 						  <img class="mr-3" :src="'https://www.gravatar.com/avatar/' + x.gravatar">
 						  <div class="media-body">
 						    <strong v-text='x.nama + " - " + x.domisili'></strong><br>
-						    <span v-text='x.halaman'></span> halaman <span class="badge badge-info" v-text='"+" + lebih(x.halaman)'></span>
+						    <span v-text='titik(x.halaman)'></span> halaman <span class="badge badge-info" v-text='"+" + titik(lebih(x.halaman))'></span>
 						  </div>
 						</div>
 					</div>
@@ -76,6 +76,9 @@
 			},
 			lebih(n){
 				return Number(n) - this.halaman
+			},
+			titik(n){
+				return Number(n).toLocaleString('id')
 			}
 		},
 		mounted(){
