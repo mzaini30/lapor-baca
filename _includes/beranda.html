@@ -1,0 +1,35 @@
+<template id="beranda">
+	<div>
+		<h1 class="text-center">Sanggar Baca Caraka</h1>
+		<hr>
+		<p>
+			<div class="btn-group">
+				<router-link to='/' class='btn btn-info'>Laporan</router-link>
+				<router-link to='/rekap' class='btn btn-info'>Rekap</router-link>
+				<div class="btn btn-info" @click='ke_atas()'><img src="vendor/atas.svg"></div>
+			</div>
+		</p>
+		<router-view></router-view>
+	</div>
+</template>
+<script type="text/javascript">
+	beranda = {
+		template: '#beranda',
+		methods: {
+			ke_atas(){
+				window.scrollTo({
+					top: 0,
+					left: 0,
+					behavior: 'smooth'
+				})
+			}
+		}
+	}
+</script>
+<style type="text/css">
+	.btn-group {
+		position: sticky;
+		top: 0;
+		z-index: 99;
+	}
+</style>

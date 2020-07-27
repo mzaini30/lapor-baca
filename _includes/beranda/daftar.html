@@ -1,0 +1,56 @@
+<template id="beranda_daftar">
+	<div>
+		<p><strong>Daftar</strong></p>
+		<form @submit.prevent='daftar()'>
+			<div class="form-group">
+				<label>Nama</label>
+				<input type="search" class="form-control" ref='nama' v-model='nama' required="" name="">
+			</div>
+			<div class="form-group">
+				<label>Domisili</label>
+				<input type="search" class="form-control" required="" v-model='domisili' name="">
+			</div>
+			<div class="form-group">
+				<label>Email</label>
+				<input type="email" class="form-control" required="" name="" v-model='email'>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Daftar" class="btn btn-info" name="">
+			</div>
+		</form>
+	</div>
+</template>
+<script type="text/javascript">
+	beranda_daftar = {
+		template: '#beranda_daftar',
+		data(){
+			return {
+				nama: '',
+				email: '',
+				domisili: ''
+			}
+		},
+		methods: {
+			daftar(){
+				body = new FormData
+				body.append('nama', this.nama)
+				body.append('email', this.email)
+				body.append('domisili', this.domisili)
+				loading()
+				fetch(`${api}/anggota.php/tambah`, {
+					method: 'post',
+					body
+				}).then(() => {
+					this.$router.push('/')
+					loading_selesai()
+				})
+			},
+			fokus(){
+				this.$refs.nama.focus()
+			}
+		},
+		mounted(){
+			this.fokus()
+		}
+	}
+</script>

@@ -1,0 +1,86 @@
+<template id="beranda_rekap">
+	<div>
+		<div class="list-group">
+			<div class="list-group-item">
+				<div class="media">
+				  <img class="mr-3" :src="'https://www.gravatar.com/avatar/' + tertinggi.gravatar">
+				  <div class="media-body">
+				    <strong v-text='tertinggi.nama + " - " + tertinggi.domisili'></strong> <span class="badge badge-success">Tertinggi</span><br>
+				    <span v-text='tertinggi.halaman'></span> halaman <span class="badge badge-info" v-text='"+" + lebih(tertinggi.halaman)'></span>
+				  </div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-sm-6">
+				<p><strong>Belum mencapai target</strong></p>
+				<div class="list-group">
+					<div class="list-group-item" v-for='x in data' v-if='x.halaman < halaman'>
+						<div class="media">
+						  <img class="mr-3" :src="'https://www.gravatar.com/avatar/' + x.gravatar">
+						  <div class="media-body">
+						    <strong v-text='x.nama + " - " + x.domisili'></strong><br>
+						    <span v-text='x.halaman'></span> halaman <span class="badge badge-danger" v-text='"-" + kurang(x.halaman)'></span>
+						  </div>
+						</div>
+					</div>
+				</div>
+				<br>
+			</div>
+			<div class="col-sm-6">
+				<p><strong>Sudah mencapai target</strong></p>
+				<div class="list-group">
+					<div class="list-group-item" v-for='x in data' v-if='x.halaman >= halaman'>
+						<div class="media">
+						  <img class="mr-3" :src="'https://www.gravatar.com/avatar/' + x.gravatar">
+						  <div class="media-body">
+						    <strong v-text='x.nama + " - " + x.domisili'></strong><br>
+						    <span v-text='x.halaman'></span> halaman <span class="badge badge-info" v-text='"+" + lebih(x.halaman)'></span>
+						  </div>
+						</div>
+					</div>
+				</div>
+				<br>
+			</div>
+		</div>
+	</div>
+</template>
+<script type="text/javascript">
+	beranda_rekap = {
+		template: '#beranda_rekap',
+		data(){
+			return {
+				data: [],
+				halaman: 270,
+				tertinggi: {}
+			}
+		},
+		methods: {
+			tampil_data(){
+				loading()
+				fetch(`${api}/laporan.php/tampil`).then(x => x.json()).then(data => {
+					this.data = data
+					loading_selesai()
+				})
+			},
+			tampil_tertinggi(){
+				loading()
+				fetch(`${api}/laporan.php/tertinggi`).then(x => x.json()).then(data => {
+					this.tertinggi = data
+					loading_selesai()
+				})
+			},
+			kurang(n){
+				return this.halaman - Number(n)
+			},
+			lebih(n){
+				return Number(n) - this.halaman
+			}
+		},
+		mounted(){
+			this.tampil_data()
+			this.tampil_tertinggi()
+		}
+	}
+</script>
