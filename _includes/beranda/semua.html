@@ -3,10 +3,22 @@
   <div class="table-responsive">
     <table class="table table-bordered">
      <thead>
-
+      <tr>
+       <th>Tanggal</th>
+       <th>Nama</th>
+       <th>Judul buku</th>
+       <th>Penulis</th>
+       <th>Jumlah halaman</th>
+      </tr>
      </thead>
      <tbody>
-
+      <tr v-for="x in data">
+       <td v-text="x.tanggalan"></td>
+       <td v-text="x.namanya"></td>
+       <td v-text="x.judul"></td>
+       <td v-text="x.penulis"></td>
+       <td v-text="x.halaman"></td>
+      </tr>
      </tbody>
     </table>
   </div>
@@ -14,6 +26,18 @@
 </template>
 <script>
  beranda_semua = {
-  template: "#beranda_semua"
+  template: "#beranda_semua",
+  data(){
+   return {
+    data: []
+   }
+  },
+  mounted(){
+   loading()
+   fetch(`${api}/laporan.php/semua`).then(x => x.json()).then(data => {
+    this.data = data
+    loading_selesai()
+   })
+  }
  }
 </script>
