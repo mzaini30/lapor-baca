@@ -8,6 +8,7 @@
 					<option v-for='x in list_nama' :value="x.id" v-text='x.nama + " - " + x.domisili'></option>
 				</select>
 			</div>
+			<div class="alert alert-warning" v-if='sudah_laporan'>Kamu sudah laporan. Mengisi laporan ini berarti mengupdate data yang sudah ada</div>
 			<div class="alert alert-info">Namamu belum terdaftar? <router-link to='/daftar'>Daftar dulu</router-link></div>
 			<div class="form-group">
 				<label>Judul buku</label>
@@ -36,7 +37,8 @@
 				judul: '',
 				penulis: '',
 				halaman: '',
-				list_nama: []
+				list_nama: [],
+				sudah_laporan: false
 			}
 		},
 		methods: {
@@ -48,6 +50,17 @@
 					this.penulis = nilainya.penulis
 					this.halaman = nilainya.halaman
 				}
+			},
+			cek_laporan(){
+				loading()
+				fetch(`${api}/anggota.php/cek-laporan/${this.nama}`).then(x => x.json()).then(data => {
+					if (data > 0){
+						this.sudah_laporan = true
+					} else {
+						this.sudah_laporan = false
+					}
+					loading_selesai()
+				})
 			},
 			cache(){
 				localStorage.setItem('nilai_caraka', JSON.stringify({
@@ -83,6 +96,7 @@
 		watch: {
 			nama(){
 				this.cache()
+				this.cek_laporan()
 			},
 			judul(){
 				this.cache()
@@ -97,6 +111,7 @@
 		mounted(){
 			this.cek_nilai()
 			this.ambil_nama()
+			this.cek_laporan()
 		}
 	}
 </script>
